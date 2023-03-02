@@ -1,0 +1,125 @@
+package ContenidoPrincipal;
+
+import javax.swing.JOptionPane;
+
+public class Principal {
+
+	/*
+	 * ICONOS JOptionPane.ERROR_MESSAGE -> 0 JOptionPane.INFORMATION_MESSAGE -> 1
+	 * JOptionPane.WARNING_MESSAGE -> 2 JOptionPane.QUESTION_MESSAGE -> 3
+	 * 
+	 */
+
+	public static void main(String[] args) {
+
+		Principal ini = new Principal();
+
+		ini.inicio();
+
+	}
+
+	public void inicio() {
+
+		// lista con las dos opciones
+		String[] opciones = { "Conversor de Divisas", "Conversor de Temperatura" };
+
+		// muestra las opciones y guarda la opcion elegida, guarda null si cancela
+		String opcion = (String) JOptionPane.showInputDialog(null, "Seleccione una opción de conversión", "Menú", 1,
+				null, opciones, opciones[0]);
+
+		elegirMonedas(opcion);
+
+	}
+
+	public void elegirMonedas(String opcion) {
+
+		if (opcion == null) {
+
+			continuar();
+		}
+
+		if (opcion.equals("Conversor de Divisas")) {
+
+			String[] monedas = { "De pesos(COP) a Dólar", "De pesos(COP) a Euros", "De pesos(COP) a Libras",
+					"De pesos(COP) a Yen", "De pesos(COP) a Won Coreano", "De Dólar a Pesos(COP)",
+					"De Euros a Pesos(COP)", "De Libras a Pesos(COP)", "DE Yen a Pesos(COP)",
+					"De Won Coreano a Pesos(COP)" };
+
+			String moneda = (String) JOptionPane.showInputDialog(null,
+					"Elija la moneda a la que deseas convertir tu dinero", "Menú", 1, null, monedas, monedas[0]);
+
+			ingresarValor(moneda);
+
+		}
+	}
+
+	public void continuar() {
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea continuar?", "Seleccione una opción",
+				JOptionPane.YES_NO_OPTION);
+
+		if (resp == 0) {
+
+			inicio();
+		} else {
+			System.exit(0);
+		}
+
+	}
+
+	public void ingresarValor(String moneda) {
+
+		if (moneda == null) {
+
+			continuar();
+		} else {
+			String option = JOptionPane.showInputDialog("Ingresa la cantidad de dinero que deseas convertir:");
+			// Valida que el valor sea numerico
+			if (validar(option)) {
+
+				double cantidad = Double.parseDouble(option);
+				if (cantidad > 0) {
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
+					inicio();
+				}
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
+				inicio();
+			}
+		}
+	}
+
+	public double convertirMoneda(String moneda, double cantidad) {
+
+		double conversion = 0;
+		
+		switch (moneda) {
+		case "De pesos(COP) a Dólar":
+
+			conversion = cantidad / 4849.65;
+			break;
+
+		case "De pesos(COP) a Euros":
+			
+			conversion = cantidad / 5105.39;
+			break;
+
+		default:
+			break;
+		}
+
+		return conversion;
+	}
+	
+
+	public boolean validar(String cadena) {
+		if (cadena.matches("[0-9]*")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}

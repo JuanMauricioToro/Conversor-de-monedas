@@ -1,0 +1,175 @@
+package ContenidoPrincipal;
+
+import javax.swing.JOptionPane;
+
+public class Principal {
+
+	/*
+	 * ICONOS JOptionPane.ERROR_MESSAGE -> 0 JOptionPane.INFORMATION_MESSAGE -> 1
+	 * JOptionPane.WARNING_MESSAGE -> 2 JOptionPane.QUESTION_MESSAGE -> 3
+	 * 
+	 */
+
+	public static void main(String[] args) {
+
+		Principal ini = new Principal();
+
+		ini.inicio();
+
+	}
+
+	public void inicio() {
+
+		// lista con las dos opciones
+		String[] opciones = { "Conversor de Divisas", "Conversor de Temperatura" };
+
+		// muestra las opciones y guarda la opcion elegida, guarda null si cancela
+		String opcion = (String) JOptionPane.showInputDialog(null, "Seleccione una opción de conversión", "Menú", 1,
+				null, opciones, opciones[0]);
+
+		elegirMonedas(opcion);
+
+	}
+
+	public void elegirMonedas(String opcion) {
+
+		if (opcion == null) {
+
+			continuar();
+		}
+
+		if (opcion.equals("Conversor de Divisas")) {
+
+			String[] monedas = { "De pesos(COP) a Dólar", "De pesos(COP) a Euros", "De pesos(COP) a Libras",
+					"De pesos(COP) a Yen", "De pesos(COP) a Won Coreano", "De Dólar a Pesos(COP)",
+					"De Euros a Pesos(COP)", "De Libras a Pesos(COP)", "De Yen a Pesos(COP)",
+					"De Won Coreano a Pesos(COP)" };
+
+			String moneda = (String) JOptionPane.showInputDialog(null,
+					"Elija la moneda a la que deseas convertir tu dinero", "Menú", 1, null, monedas, monedas[0]);
+
+			ingresarValor(moneda);
+
+		}
+	}
+
+	public void continuar() {
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea continuar?", "Seleccione una opción",
+				JOptionPane.YES_NO_OPTION);
+
+		if (resp == 0) {
+
+			inicio();
+		} else {
+			JOptionPane.showMessageDialog(null,"Programa Terminado");
+			System.exit(0);
+		}
+
+	}
+
+	public void ingresarValor(String moneda) {
+
+		if (moneda == null) {
+
+			continuar();
+		} else {
+			String option = JOptionPane.showInputDialog("Ingresa la cantidad de dinero que deseas convertir:");
+			// Valida que el valor sea numerico
+			if (validar(option)) {
+
+				double cantidad = Double.parseDouble(option);
+				if (cantidad > 0) {
+					
+					convertirMoneda(moneda, cantidad);
+					continuar();
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
+					inicio();
+				}
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Ingrese un valor válido", "Error", JOptionPane.ERROR_MESSAGE);
+				inicio();
+			}
+		}
+	}
+
+	public void convertirMoneda(String moneda, double cantidad) {
+
+		double conversion = 0;
+		
+		switch (moneda) {
+		case "De pesos(COP) a Dólar":
+
+			conversion = Math.round((cantidad / 4849.65)*100.0)/100.0;
+			JOptionPane.showConfirmDialog(null,"Tienes $"+conversion+" Dolares","mensaje",JOptionPane.CLOSED_OPTION);
+			break;
+
+		case "De pesos(COP) a Euros":
+			
+			conversion = Math.round((cantidad / 5105.39)*100.0)/100.0;
+			JOptionPane.showConfirmDialog(null,"Tienes $"+conversion+" Euros","mensaje",JOptionPane.CLOSED_OPTION);
+			break;
+			
+		case "De pesos(COP) a Libras":
+			
+			conversion = Math.round((cantidad / 5800.40)*100.0)/100.0;
+			JOptionPane.showConfirmDialog(null,"Tienes $"+conversion+" Libras","mensaje",JOptionPane.CLOSED_OPTION);
+			break;
+			
+		case "De pesos(COP) a Yen":
+			
+			conversion = Math.round((cantidad / 35.46)*100.0)/100.0;
+			JOptionPane.showConfirmDialog(null,"Tienes $"+conversion+" Yenes","mensaje",JOptionPane.CLOSED_OPTION);
+			break;
+			
+		case "De pesos(COP) a Won Coreano":
+			
+			conversion = Math.round((cantidad / 0.27)*100.0)/100.0;
+			JOptionPane.showConfirmDialog(null,"Tienes $"+conversion+" Won Coreano","mensaje",JOptionPane.CLOSED_OPTION);
+			break;
+			
+		case "De Dólar a Pesos(COP)":
+			
+			conversion = Math.round((cantidad / 0.00021)*100.0)/100.0;
+			JOptionPane.showConfirmDialog(null,"Tienes $"+conversion+" Pesos(COP)","mensaje",JOptionPane.CLOSED_OPTION);
+			break;
+
+		case "De Euros a Pesos(COP)":
+			
+			conversion = cantidad / 0.00019;
+			break;
+			
+		case "De Libras a Pesos(COP)":
+			
+			conversion = cantidad / 0.00017;
+			break;
+			
+		case "De Yen a Pesos(COP)":
+			
+			conversion = cantidad / 35.58;
+			break;
+			
+		case "De Won Coreano a Pesos(COP)":
+			
+			conversion = cantidad / 3.69;
+			break;
+			
+		default:
+			break;
+		}
+
+	
+	}
+	
+
+	public boolean validar(String cadena) {
+		if (cadena.matches("[0-9]*")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
